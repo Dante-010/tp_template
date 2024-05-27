@@ -7,11 +7,12 @@ OUTPUT_FOLDER="output_data"
 DATASET_NAME="brain_hemispheres_dataset"
 DERIVATIVES_PATH="derivatives/vbm"
 
-DATASETS_URLS=($INPUT_DATASET_URL $INPUT_DATASET2_URL)
+DATASET_URLS=("$INPUT_DATASET_URL" "$INPUT_DATASET2_URL")
 
 for i in "${!DATASET_URLS[@]}"; do
+    
     datalad create ${DATASET_NAME}$i
-    cd $DATASET_NAME
+    cd ${DATASET_NAME}$i
 
     datalad install -d . -s ${DATASET_URLS[i]} $INPUT_FOLDER
     datalad get $INPUT_FOLDER/$DERIVATIVES_PATH
