@@ -43,7 +43,7 @@ De antemano, aclaramos que en el caso de cualquier parámetro/hiperparámetro qu
 - Realizamos el pre-procesamiento notado en el paper: dividimos ambos hemisferios según la linea central, rotamos el hemisferio izquierdo sobre el eje X para alinear ambos hemisferios, y estandarizamos (Z-score) los valores de los voxels.
 La parte de dividir los hemisferios y alinearlos lo implementamos con un script. La parte del z-score, la implementamos con el preprocessing de julearn, utilizando el transformer `zscore`.
 Esto se realiza para prevenir que los clasificadores únicamente utilicen la diferencia hemisférico promedio para identificar los hemisferios.
-- Ya tenemos los datos. Ahora, queremos realizar los tres tipos de análisis previamente mencionados.    
+- Ya tenemos los datos. Ahora, queremos realizar los tres tipos de análisis previamente mencionados.,    
 - Utilizamos python3.8, y la librería scikit-learn.
 Los hemisferios se leen como matrices 3D utilizando 'nilearn'. Las matrices se transforman a vectores de una dimensión de longitud V, donde V = número de voxels.
 Los vectores resultantes de dimensión 1xV se concatenan para crear una matriz de datos de NxV, con N = cantidad de hemisferios = cantidad de sujetos en el dataset * 2.
