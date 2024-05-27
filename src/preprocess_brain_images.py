@@ -22,7 +22,7 @@ def process_brain_images(input_folder, output_folder):
         data = img.get_fdata()
         affine = img.affine
 
-        # data = z_score_standardize(data)
+        data = z_score_standardize(data)
 
         x, y, z = data.shape
 
@@ -36,12 +36,10 @@ def process_brain_images(input_folder, output_folder):
 
         left_hemisphere_flipped = np.flip(left_hemisphere, axis=0)
 
-        # Save the left hemisphere flipped
         left_img = nib.Nifti1Image(left_hemisphere_flipped, affine)
         left_output_path = os.path.join(output_folder, f'{os.path.basename(os.path.dirname(nii_file))}_left_flipped.nii.gz')
         nib.save(left_img, left_output_path)
 
-        # Save the right hemisphere
         right_img = nib.Nifti1Image(right_hemisphere, affine)
         right_output_path = os.path.join(output_folder, f'{os.path.basename(os.path.dirname(nii_file))}_right.nii.gz')
         nib.save(right_img, right_output_path)

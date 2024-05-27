@@ -134,5 +134,7 @@ cython_debug/
 
 
 # datalad
-
 src/brain_hemispheres_dataset*
+
+# project
+src/matrix

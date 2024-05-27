@@ -13,8 +13,11 @@ Para poder ejecutar el código utilizado en el proyecto, necesitamos de las sigu
 - [Seaborn](https://seaborn.pydata.org/) (v0.13.2)
 - [Nilearn](https://nilearn.github.io/) (v0.10.2)
 - [SciPy](https://scipy.org/) (v1.13.1)
+- [Pandas](https://pandas.pydata.org/) (v2.1.4)
 
-(estas dos herramientas no son librerías de python)
+
+(estas herramientas no son librerías de python)
+- [DataLad](https://www.datalad.org/) (v1.0.2)
 - [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/) (v6.0.7.11)
 - [SurfIce](https://www.nitrc.org/projects/surfice/) (v1.0.20211006)
 

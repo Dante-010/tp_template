@@ -20,7 +20,7 @@ for i in "${!DATASET_URLS[@]}"; do
     mkdir -p $OUTPUT_FOLDER
 
     echo "Running python script..."
-    python ../process_brain_images.py $INPUT_FOLDER/$DERIVATIVES_PATH $OUTPUT_FOLDER
+    python ../preprocess_brain_images.py $INPUT_FOLDER/$DERIVATIVES_PATH $OUTPUT_FOLDER
 
     datalad save -m "Processed brain images: split hemispheres and flipped left hemisphere" $OUTPUT_FOLDER
 
