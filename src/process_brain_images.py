@@ -26,10 +26,12 @@ def process_brain_images(input_folder, output_folder):
 
         x, y, z = data.shape
 
-        # Assuming the brain is centered and the split is at the middle in the x-axis
+        # Como ya sabemos que el cerebro esta centrado y ambos hemisferios son "simetricos"
+        # consideramos la mitad del eje x para dividir. En nuestro caso, x = 91, por lo tanto,
+        # incluimos el 'midpoint' en ambos hemisferios
         midpoint = x // 2
 
-        left_hemisphere = data[:midpoint, :, :]
+        left_hemisphere = data[:midpoint + 1, :, :]
         right_hemisphere = data[midpoint:, :, :]
 
         left_hemisphere_flipped = np.flip(left_hemisphere, axis=0)

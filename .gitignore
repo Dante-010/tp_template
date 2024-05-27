@@ -134,6 +134,5 @@ cython_debug/
 
 
 # datalad
-ds002785
 
-src/brain_hemispheres_dataset
+src/brain_hemispheres_dataset*
