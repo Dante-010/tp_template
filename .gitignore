@@ -138,3 +138,6 @@ src/brain_hemispheres_dataset*
 
 # project
 src/matrix
+*nii.gz
+*.gz
+fsl/

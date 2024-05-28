@@ -1,41 +1,59 @@
+import os
 import numpy as np
+import nibabel as nib
+from glob import glob
 
-matrix_file_paths = ["matrix/dataset0.npy", "matrix/dataset1.npy"]
+matrix_file_paths = ["matrix/zscore/dataset0.npy", "matrix/zscore/dataset1.npy"]
 
 def compute_laterality_quotient(left_vector, right_vector):
-    # Subtract the left hemisphere from the right hemisphere
-    difference = right_vector - left_vector
-    
-    # Compute the total sum of their values
-    total_sum = np.sum(left_vector) + np.sum(right_vector)
-    
-    # Compute the laterality quotient
-    laterality_quotient = difference / total_sum
-    
+    diff = right_vector - left_vector
+    total = right_vector + left_vector
+    # laterality_quotient = diff / total
+    laterality_quotient = np.where(total != 0, diff / total, np.nan)
+
     return laterality_quotient
 
-for idx, path in enumerate(matrix_file_paths):
-    matrix = np.load(path)
-    
-    # Initialize a list to store laterality quotient matrices
-    laterality_quotients = []
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Iterate over pairs of rows (representing both hemispheres)
-    for i in range(0, matrix.shape[0], 2):
-        # Get the left and right hemisphere vectors
+for idx, path in enumerate(matrix_file_paths):
+    input_folder = os.path.join(script_dir, f'brain_hemispheres_dataset{idx}/output_data/original/')
+    nii_files = sorted(glob(os.path.join(input_folder, 'sub-0001*.nii.gz')))
+    
+    if not nii_files:
+        print(f"No NIfTI files found in {input_folder}. Skipping dataset {idx}.")
+        continue
+    
+    # Miramos el primer archivo para determinar el formato de los datos originales
+    first_img_path = nii_files[0]
+    img = nib.load(first_img_path)
+    data = img.get_fdata(dtype=np.float32)
+    affine = img.affine
+    x, y, z = data.shape
+
+    matrix = np.load(path)
+    laterality_quotient_images = []
+
+    # for i in range(0, matrix.shape[0], 2):
+    for i in range(0, 10, 2):    
+        print(f'{path} | subj {i//2}')
+
         left_vector = matrix[i]
         right_vector = matrix[i + 1]
-        
-        # Compute laterality quotient for each pair of vectors
+
         laterality_quotient = compute_laterality_quotient(left_vector, right_vector)
-        
-        # Append the laterality quotient to the list
-        laterality_quotients.append(laterality_quotient)
+        laterality_quotient_images.append(laterality_quotient.reshape((x, y, z)))
 
-    # Concatenate all laterality quotient matrices along the first axis
-    final_laterality_quotient_matrix = np.vstack(laterality_quotients)
+    # Unimos todas las matrices 3D y guardamos una nueva imagen Nifti 4D
+    laterality_quotient_4d = np.stack(laterality_quotient_images, axis=-1)
+    output_path = os.path.join(script_dir, 'matrix', f'laterality_quotients_dataset{idx}.nii.gz')
 
-    # Save the final laterality quotient matrix
-    np.save(f"matrix/final_laterality_quotient_matrix{idx}.npy", final_laterality_quotient_matrix)
+    print(affine)
+    new_affine = np.eye(4)
+    new_affine[:3, :3] = affine[:3, :3]
+    new_affine[:3, 3] = affine[:3, 3]
+    print(new_affine)
+    nib.save(nib.Nifti1Image(laterality_quotient_4d, new_affine), output_path)
 
-    print("Final laterality quotient matrix saved successfully.")
+    print(f"4D laterality quotient image for dataset {idx} saved successfully.")
+
+print("All datasets processed.")

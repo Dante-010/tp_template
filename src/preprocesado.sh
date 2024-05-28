@@ -17,14 +17,15 @@ for i in "${!DATASET_URLS[@]}"; do
     datalad install -d . -s ${DATASET_URLS[i]} $INPUT_FOLDER
     datalad get $INPUT_FOLDER/$DERIVATIVES_PATH
 
-    mkdir -p $OUTPUT_FOLDER
+    mkdir -p $OUTPUT_FOLDER/original
+    mkdir -p $OUTPUT_FOLDER/zscore
 
     echo "Running python script..."
-    python ../preprocess_brain_images.py $INPUT_FOLDER/$DERIVATIVES_PATH $OUTPUT_FOLDER
 
-    datalad save -m "Processed brain images: split hemispheres and flipped left hemisphere" $OUTPUT_FOLDER
+    cd ..
+    python ./preprocess_brain_images.py ${DATASET_NAME}$i/$INPUT_FOLDER/$DERIVATIVES_PATH ${DATASET_NAME}$i/$OUTPUT_FOLDER
+
+    # datalad save -m "Processed brain images: split hemispheres and flipped left hemisphere" $OUTPUT_FOLDER
 
     echo "Processing complete. Dataset $i is ready."
-    
-    cd ..
 done
