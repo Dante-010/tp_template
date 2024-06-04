@@ -4,6 +4,7 @@
 
 ## Requisitos
 Para poder ejecutar el código utilizado en el proyecto, necesitamos de las siguientes herramientas (con la versión utilizada para poder corroborar la reproducibilidad):
+- [Python](https://python.org) (v3.12.3)
 - [NumPy](https://numpy.org/) (v1.26.4)
 - [Matplotlib](https://matplotlib.org/) (v3.8.4)
 - [Scikit-learn](https://scikit-learn.org/) (v1.3.2)
@@ -14,7 +15,7 @@ Para poder ejecutar el código utilizado en el proyecto, necesitamos de las sigu
 - [Nilearn](https://nilearn.github.io/) (v0.10.2)
 - [SciPy](https://scipy.org/) (v1.13.1)
 - [Pandas](https://pandas.pydata.org/) (v2.1.4)
-
+- [Boruta](https://pypi.org/project/Boruta/) (v0.3)
 
 (estas herramientas no son librerías de python)
 - [DataLad](https://www.datalad.org/) (v1.0.2)
