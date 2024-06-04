@@ -10,7 +10,7 @@ y configurar una pipeline completa para unicamente aplicar el zscore resulta inn
 - Tambien aclara que se utiliza el mapa LQ promedio para comparar los distintos modelos.
 - Se interpretó erróneamente que el algoritmo de Boruta podría ser aplicado utilizando FSL cluster. En realidad, el paper quería decir que se utilizaba FSL cluster para analizar los resultados obtenidos de correr Boruta.
 Utilizamos la librería de python [boruta](https://pypi.org/project/Boruta/), junto a 
-- Error de interpretación en los threshold de LQ para comparar utilizando DSC: el rango es de 0.02 a 0.6, en vez de 0.2 a 6.
+- Error de interpretación en los threshold de LQ para comparar utilizando DSC: el rango es de 0 a 0.6 (con incrementos de 0.2), en vez de 0.2 a 6. Esto aplica tanto para el caso positivo como el negativo.
 - Error al considerar `sklearn.linear_models.LASSO` como modelo para resolver un problema de clasificación, siendo un modelo de regresión. Utilizamos `sklearn.linear_models.LogisticRegression` con `penalty='l1'`, que es equivalente (hasta donde logramos entender).
 
 ## Resultados

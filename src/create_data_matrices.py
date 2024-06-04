@@ -13,17 +13,15 @@ def process_images(input_folder):
     
     vectors = []
 
-    for i, nii_file in enumerate(nii_files):
+    for nii_file in nii_files:
         print(nii_file)
-
         img = load_img(nii_file)
-        
+
         # Obtenemos los datos como una matriz 3D
         data = img.get_fdata(dtype=np.float32)
 
         # Pasamos la matriz a 1D
         vector = data.ravel()    
-
         vectors.append(vector)
     
     # Convertimos en matriz 2D (NxV)

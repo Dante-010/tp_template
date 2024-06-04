@@ -14,39 +14,33 @@ def z_score_standardize(data):
 
 def save_matrix_as_img(matrix, affine, img_name, nii_file, original=False):
     img = nib.Nifti1Image(matrix, affine)
-
     dest = 'original' if original else 'zscore'
-
-    output_dir = os.path.join(output_folder, dest)
-
-    output_path = os.path.join(output_dir, f'{os.path.basename(os.path.dirname(nii_file))}_{img_name}.nii.gz')
+    output_path = os.path.join(output_folder, dest, f'{os.path.basename(os.path.dirname(nii_file))}_{img_name}.nii.gz')
     nib.save(img, output_path)
 
 def process_brain_images(input_folder, output_folder):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     
-    # Get list of .nii.gz files in the input folder
     nii_files = sorted(glob(os.path.join(input_folder, 'sub*/*.nii.gz')))
+
+    # Obtenemos informacion de la primer imagen
+    img = nib.load(nii_files[0])
+    # Utilizamos float32 debido a que input_data viene en ese formato
+    data = img.get_fdata(dtype=np.float32)
+    affine = img.affine
+    x, y, z = data.shape
+    affine[:3, 3] = affine[:3, 3] - np.array([x // 2, 0, 0])
 
     for nii_file in nii_files:
         img = nib.load(nii_file)
-
-        # Utilizamos float32 debido a que input_data viene en ese formato
         data = img.get_fdata(dtype=np.float32)
-        affine = img.affine
-
-        x, y, z = data.shape
-        
-        affine[:3, 3] = affine[:3, 3] - np.array([x // 2, 0, 0])
-
         # Como ya sabemos que el cerebro esta centrado y ambos hemisferios son "simetricos"
-        # consideramos la mitad del eje x para dividir. En nuestro caso, x = 91, por lo tanto,
-        # incluimos el 'midpoint' en ambos hemisferios
+        # consideramos la mitad del eje x para dividir. NO incluimos el midpoint.
         midpoint = x // 2
 
-        left_hemisphere = data[:midpoint + 1, :, :]
-        right_hemisphere = data[midpoint:, :, :]
+        left_hemisphere = data[:midpoint, :, :]
+        right_hemisphere = data[midpoint + 1:, :, :]
         
         left_hemisphere_flipped = np.flip(left_hemisphere, axis=0)
 
