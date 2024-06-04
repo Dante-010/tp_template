@@ -141,3 +141,4 @@ src/matrix
 *nii.gz
 *.gz
 fsl/
+plots/
