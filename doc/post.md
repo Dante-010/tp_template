@@ -99,6 +99,7 @@ Precisión (de clasificación de hemisferio) para las distintas 'runs' con CV
 0    1.000000
 1    1.000000
 2    0.972222
+
 Promedio = 0.9924074
 ```
 - Dataset 2
